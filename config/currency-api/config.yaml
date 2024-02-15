@@ -1,0 +1,8 @@
+HttpServer:
+  Port: 8080
+  ShutdownTimeout: 30s
+Database:
+  Host: localhost
+  Port: 5432
+  User: postgres
+  Name: service
