@@ -17,11 +17,7 @@ type HttpServer struct {
 }
 
 type Database struct {
-	Host     string `yaml:"Host"`
-	Port     string `yaml:"Port"`
-	User     string `yaml:"User"`
-	Password string `env:"DATABASE_PASSWORD"`
-	Name     string `yaml:"Name"`
+	Url string `yaml:"Url"`
 }
 
 func LoadConfig(path string) (*Config, error) {

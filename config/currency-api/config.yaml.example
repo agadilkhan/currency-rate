@@ -1,0 +1,12 @@
+HttpServer:
+  Port:
+  ShutdownTimeout:
+Database:
+  Url: postgres://username:password@localhost:5432/db_name?sslmode=disable&search_path=public
+
+
+HttpServer:
+  Port: 8080
+  ShutdownTimeout: 30s
+Database:
+  Url: postgres://postgres:Alfarabi2004@localhost:5432/service?sslmode=disable&search_path=public
