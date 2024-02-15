@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"strings"
 )
 
@@ -22,4 +23,8 @@ func NewSQL(dataSourceName string) (*SQLX, error) {
 	}
 
 	return &SQLX{Client: db}, nil
+}
+
+func (s *SQLX) Close() error {
+	return s.Client.Close()
 }
