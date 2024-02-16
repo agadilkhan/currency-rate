@@ -29,7 +29,7 @@ go mod tidy
 ### Migrate
 To create the currency table
 ```sh
-$ migrate -path migrations/ -database "postgresql://username:password@localhost:5432/database_name?sslmode=disable" -verbose up
+migrate -path migrations/ -database "postgresql://username:password@localhost:5432/database_name?sslmode=disable" -verbose up
 ```
 
 ### Launch
