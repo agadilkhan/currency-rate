@@ -2,7 +2,7 @@ package job
 
 import (
 	"context"
-	"github.com/agadilkhan/currency-rate/internal/currency-job/service"
+	"github.com/agadilkhan/currency-rate/internal/service"
 	"log"
 	"time"
 )
@@ -36,6 +36,8 @@ func (j *Job) Run(ctx context.Context) {
 				log.Printf("failed to Update err: %v", err)
 				return
 			}
+
+			log.Println("currency table has been updated")
 
 			elapsedTime := time.Since(startTime)
 

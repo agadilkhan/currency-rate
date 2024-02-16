@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/agadilkhan/currency-rate/internal/currency-api/entity"
+	"github.com/agadilkhan/currency-rate/internal/entity"
 )
 
 type Repository interface {

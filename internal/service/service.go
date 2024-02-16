@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/agadilkhan/currency-rate/internal/currency-api/entity"
-	"github.com/agadilkhan/currency-rate/internal/currency-api/repository"
-	"github.com/agadilkhan/currency-rate/internal/currency-api/transport"
+	"github.com/agadilkhan/currency-rate/internal/entity"
+	"github.com/agadilkhan/currency-rate/internal/repository"
+	"github.com/agadilkhan/currency-rate/internal/transport"
 )
 
 type Service struct {

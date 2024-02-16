@@ -3,7 +3,7 @@ package transport
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/agadilkhan/currency-rate/internal/currency-api/entity"
+	"github.com/agadilkhan/currency-rate/internal/entity"
 	"net/http"
 )
 

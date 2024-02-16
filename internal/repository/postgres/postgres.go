@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/agadilkhan/currency-rate/internal/currency-api/entity"
+	"github.com/agadilkhan/currency-rate/internal/entity"
 	"github.com/jmoiron/sqlx"
 	"time"
 )

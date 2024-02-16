@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/agadilkhan/currency-rate/internal/currency-api/service"
+	"github.com/agadilkhan/currency-rate/internal/service"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -49,9 +49,5 @@ func (h *Handler) ForceUpdate(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, struct {
-		updated bool
-	}{
-		true,
-	})
+	ctx.JSON(http.StatusOK, "success")
 }
