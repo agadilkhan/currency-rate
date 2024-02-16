@@ -1,5 +1,5 @@
 # Currency-Rate
-### Exchange Rate Service
+### Service for getting the currency rate
 ***
 ## Built With
 * [![Golang][Golang-badge]][Golang-url]

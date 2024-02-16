@@ -4,7 +4,7 @@ HttpServer:
 Database:
   Url: postgres://username:password@localhost:5432/db_name?sslmode=disable&search_path=public
 Transport:
-  Host:
+  Host: https://www.cbr-xml-daily.ru/latest.js
 Job:
   UpdateInterval:
   CurrencyVariation:
