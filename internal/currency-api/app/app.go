@@ -1,17 +1,23 @@
 package app
 
 import (
+	"context"
 	"github.com/agadilkhan/currency-rate/internal/currency-api/config"
 	"github.com/agadilkhan/currency-rate/internal/currency-api/controller/http"
 	"github.com/agadilkhan/currency-rate/internal/currency-api/database"
+	"github.com/agadilkhan/currency-rate/internal/currency-api/job"
 	"github.com/agadilkhan/currency-rate/internal/currency-api/repository/postgres"
 	"github.com/agadilkhan/currency-rate/internal/currency-api/service"
+	"github.com/agadilkhan/currency-rate/internal/currency-api/transport"
 	"log"
 	"os"
 	"os/signal"
 )
 
 func Run(cfg *config.Config) {
+	ctx, cancel := context.WithCancel(context.TODO())
+	defer cancel()
+
 	db, err := database.NewSQL(cfg.Database.Url)
 	if err != nil {
 		log.Panicf("cannot connect to db err: %v", err)
@@ -27,7 +33,9 @@ func Run(cfg *config.Config) {
 
 	pgRepo := postgres.New(db.Client)
 
-	srvc := service.New(pgRepo)
+	tr := transport.New(cfg.Host)
+
+	srvc := service.New(pgRepo, tr)
 
 	hndlr := http.NewHandler(srvc)
 
@@ -40,6 +48,9 @@ func Run(cfg *config.Config) {
 	server.Start()
 
 	log.Println("http server running...")
+
+	jb := job.New(srvc, cfg.Job.UpdateInterval)
+	go jb.Run(ctx)
 
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)

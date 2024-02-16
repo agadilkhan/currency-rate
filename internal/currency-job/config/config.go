@@ -7,9 +7,9 @@ import (
 )
 
 type Config struct {
-	Database
-	Transport
-	Service
+	Database  `yaml:"Database"`
+	Transport `yaml:"Transport"`
+	Job       `yaml:"Job"`
 }
 
 type Database struct {
@@ -20,7 +20,7 @@ type Transport struct {
 	Host string `yaml:"Host"`
 }
 
-type Service struct {
+type Job struct {
 	UpdateInterval    time.Duration `yaml:"UpdateInterval"`
 	CurrencyVariation string        `yaml:"CurrencyVariation"`
 }

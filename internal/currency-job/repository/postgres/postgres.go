@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/agadilkhan/currency-rate/internal/currency-job/entity"
 	"github.com/jmoiron/sqlx"
+	"time"
 )
 
 type Repository struct {
@@ -19,11 +20,11 @@ func New(db *sqlx.DB) *Repository {
 
 func (r *Repository) Save(ctx context.Context, currency *entity.Currency) (int, error) {
 	query := `
-		INSERT INTO currency (code, rate)
-		VALUES ($1, $2)
+		INSERT INTO currency (code, rate, updated_at)
+		VALUES ($1, $2, $3)
 		RETURNING id`
 
-	args := []any{currency.Code, currency.Rate}
+	args := []any{currency.Code, currency.Rate, time.Now()}
 
 	var id int
 
@@ -38,7 +39,7 @@ func (r *Repository) Save(ctx context.Context, currency *entity.Currency) (int, 
 func (r *Repository) Update(ctx context.Context, currency *entity.Currency) error {
 	query := `
 				UPDATE currency
-				SET rate=$1 
+				SET rate=$1
 				WHERE code=$2`
 
 	_, err := r.Db.Exec(query, currency.Rate, currency.Code)

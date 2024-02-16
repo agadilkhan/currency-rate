@@ -9,13 +9,14 @@ import (
 )
 
 type Service struct {
-	transport transport.HttpTransport
+	transport *transport.HttpTransport
 	repo      repository.Repository
 }
 
-func New(repo repository.Repository) *Service {
+func New(repo repository.Repository, httpTransport *transport.HttpTransport) *Service {
 	return &Service{
-		repo: repo,
+		repo:      repo,
+		transport: httpTransport,
 	}
 }
 
@@ -27,7 +28,7 @@ func (s *Service) GetByCode(ctx context.Context, code string) (*entity.Currency,
 	return s.repo.GetByCode(ctx, code)
 }
 
-func (s *Service) ForceUpdate(ctx context.Context) error {
+func (s *Service) Update(ctx context.Context) error {
 	rates, err := s.transport.GetCurrencies()
 	if err != nil {
 		return fmt.Errorf("failed to GetCurrencies err: %v", err)
@@ -39,5 +40,21 @@ func (s *Service) ForceUpdate(ctx context.Context) error {
 			return fmt.Errorf("failed to Update err: %v", err)
 		}
 	}
+	return nil
+}
+
+func (s *Service) Save(ctx context.Context) error {
+	rates, err := s.transport.GetCurrencies()
+	if err != nil {
+		return fmt.Errorf("failed to GetCurrencies err: %v", err)
+	}
+
+	for _, currency := range *rates {
+		_, err = s.repo.Save(ctx, &currency)
+		if err != nil {
+			return fmt.Errorf("failed to Save err: %v", err)
+		}
+	}
+
 	return nil
 }

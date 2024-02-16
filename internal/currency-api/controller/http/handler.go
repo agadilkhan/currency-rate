@@ -42,7 +42,7 @@ func (h *Handler) GetByCode(ctx *gin.Context) {
 }
 
 func (h *Handler) ForceUpdate(ctx *gin.Context) {
-	err := h.service.ForceUpdate(ctx)
+	err := h.service.Update(ctx)
 	if err != nil {
 		log.Printf("failed to ForceUpdate err: %v", err)
 		ctx.Status(http.StatusInternalServerError)

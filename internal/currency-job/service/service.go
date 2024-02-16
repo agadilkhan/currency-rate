@@ -36,5 +36,17 @@ func (s *Service) Save(ctx context.Context) error {
 }
 
 func (s *Service) Update(ctx context.Context) error {
+	rates, err := s.transport.GetCurrencies()
+	if err != nil {
+		return fmt.Errorf("failed to GetCurrencies err: %v", err)
+	}
+
+	for _, currency := range *rates {
+		err = s.repo.Update(ctx, &currency)
+		if err != nil {
+			return fmt.Errorf("failed to Update err: %v", err)
+		}
+	}
+
 	return nil
 }

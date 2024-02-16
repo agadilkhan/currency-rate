@@ -19,11 +19,10 @@ func Run(cfg *config.Config) {
 	log.Println("database connection success")
 
 	pgRepo := postgres.New(db.Client)
+
 	tr := transport.New(cfg.Transport.Host)
+
 	srvc := service.New(pgRepo, *tr)
 
-	err = srvc.Save(context.TODO())
-	if err != nil {
-		log.Panic(err)
-	}
+	srvc.Save(context.TODO())
 }

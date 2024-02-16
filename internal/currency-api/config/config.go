@@ -10,6 +10,7 @@ type Config struct {
 	HttpServer `yaml:"HttpServer"`
 	Database   `yaml:"Database"`
 	Transport  `yaml:"Transport"`
+	Job        `yaml:"Job"`
 }
 
 type HttpServer struct {
@@ -23,6 +24,11 @@ type Database struct {
 
 type Transport struct {
 	Host string `yaml:"Host"`
+}
+
+type Job struct {
+	UpdateInterval    time.Duration `yaml:"UpdateInterval"`
+	CurrencyVariation string        `yaml:"CurrencyVariation"`
 }
 
 func LoadConfig(path string) (*Config, error) {

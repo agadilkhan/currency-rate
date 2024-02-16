@@ -8,5 +8,6 @@ import (
 type UseCase interface {
 	List(ctx context.Context) (*[]entity.Currency, error)
 	GetByCode(ctx context.Context, code string) (*entity.Currency, error)
-	ForceUpdate(ctx context.Context) error
+	Update(ctx context.Context) error
+	Save(ctx context.Context, currency *entity.Currency) error
 }
