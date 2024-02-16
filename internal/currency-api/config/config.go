@@ -9,15 +9,20 @@ import (
 type Config struct {
 	HttpServer `yaml:"HttpServer"`
 	Database   `yaml:"Database"`
+	Transport  `yaml:"Transport"`
 }
 
 type HttpServer struct {
-	Host            string        `yaml:"Host"`
+	Port            string        `yaml:"Port"`
 	ShutdownTimeout time.Duration `yaml:"ShutdownTimeout"`
 }
 
 type Database struct {
 	Url string `yaml:"Url"`
+}
+
+type Transport struct {
+	Host string `yaml:"Host"`
 }
 
 func LoadConfig(path string) (*Config, error) {

@@ -33,7 +33,7 @@ func Run(cfg *config.Config) {
 
 	server := http.NewServer(
 		hndlr.InitRouter(),
-		http.WithHost(cfg.HttpServer.Host),
+		http.WithHost(cfg.HttpServer.Port),
 		http.WithShutdownTimeout(cfg.HttpServer.ShutdownTimeout),
 	)
 

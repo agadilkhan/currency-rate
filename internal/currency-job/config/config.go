@@ -1,1 +1,48 @@
 package config
+
+import (
+	"fmt"
+	"github.com/spf13/viper"
+	"time"
+)
+
+type Config struct {
+	Database
+	Transport
+	Service
+}
+
+type Database struct {
+	Url string `yaml:"Url"`
+}
+
+type Transport struct {
+	Host string `yaml:"Host"`
+}
+
+type Service struct {
+	UpdateInterval    time.Duration `yaml:"UpdateInterval"`
+	CurrencyVariation string        `yaml:"CurrencyVariation"`
+}
+
+func LoadConfig(path string) (*Config, error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+
+	viper.AutomaticEnv()
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		return nil, fmt.Errorf("failed to ReadInConfig err: %v", err)
+	}
+
+	var cfg Config
+
+	err = viper.Unmarshal(&cfg)
+	if err != nil {
+		return nil, fmt.Errorf("failed to Unmarshal err: %v", err)
+	}
+
+	return &cfg, nil
+}
