@@ -11,6 +11,8 @@ type SQLX struct {
 	Client *sqlx.DB
 }
 
+// postgres://username:password@localhost:5432/db_name?sslmode=disable&search_path=public
+
 func NewSQL(dataSourceName string) (*SQLX, error) {
 	if !strings.Contains(dataSourceName, "://") {
 		return nil, fmt.Errorf("undefined data source name " + dataSourceName)

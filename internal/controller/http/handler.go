@@ -11,7 +11,7 @@ type Handler struct {
 	service service.UseCase
 }
 
-func NewHandler(service service.UseCase) *Handler {
+func New(service service.UseCase) *Handler {
 	return &Handler{
 		service: service,
 	}

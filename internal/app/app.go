@@ -17,9 +17,6 @@ import (
 
 // Run initialize whole application.
 func Run(cfg *config.Config) {
-	ctx, cancel := context.WithCancel(context.TODO())
-	defer cancel()
-
 	db, err := database.NewSQL(cfg.Database.Url)
 	if err != nil {
 		log.Panicf("cannot connect to db err: %v", err)
@@ -35,11 +32,19 @@ func Run(cfg *config.Config) {
 
 	pgRepo := postgres.New(db.Client)
 
+	// Transport for parsing from external API
 	tr := transport.New(cfg.Host)
 
 	srvc := service.New(pgRepo, tr)
 
-	hndlr := http.NewHandler(srvc)
+	ctx, cancel := context.WithCancel(context.TODO())
+	defer cancel()
+
+	jb := job.New(srvc, cfg.Job.UpdateInterval)
+	// Run daemon that will update db during the interval in a goroutine
+	go jb.Run(ctx)
+
+	hndlr := http.New(srvc)
 
 	server := httpserver.New(
 		hndlr.InitRouter(),
@@ -47,13 +52,19 @@ func Run(cfg *config.Config) {
 		httpserver.WithShutdownTimeout(cfg.HttpServer.ShutdownTimeout),
 	)
 
+	// Run our server in a goroutine so that it doesn't block.
 	server.Start()
+
+	defer func() {
+		err = server.Shutdown()
+		if err != nil {
+			log.Printf("server shutdown err: %s", err)
+		}
+	}()
 
 	log.Println("http server running...")
 
-	jb := job.New(srvc, cfg.Job.UpdateInterval)
-	go jb.Run(ctx)
-
+	// Graceful Shutdown
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
@@ -62,11 +73,6 @@ func Run(cfg *config.Config) {
 		log.Printf("signal received: %s", s.String())
 	case err = <-server.Notify():
 		log.Printf("server notify: %s", err.Error())
-	}
-
-	err = server.Shutdown()
-	if err != nil {
-		log.Printf("server shutdown err: %s", err)
 	}
 
 }
