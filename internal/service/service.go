@@ -29,7 +29,7 @@ func (s *Service) GetByCode(ctx context.Context, code string) (*entity.Currency,
 }
 
 func (s *Service) Update(ctx context.Context) error {
-	rates, err := s.transport.GetCurrencies()
+	rates, err := s.transport.ParseRates()
 	if err != nil {
 		return fmt.Errorf("failed to GetCurrencies err: %v", err)
 	}
@@ -44,7 +44,7 @@ func (s *Service) Update(ctx context.Context) error {
 }
 
 func (s *Service) Save(ctx context.Context) error {
-	rates, err := s.transport.GetCurrencies()
+	rates, err := s.transport.ParseRates()
 	if err != nil {
 		return fmt.Errorf("failed to GetCurrencies err: %v", err)
 	}

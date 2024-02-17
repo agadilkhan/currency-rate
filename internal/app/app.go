@@ -4,16 +4,18 @@ import (
 	"context"
 	"github.com/agadilkhan/currency-rate/internal/config"
 	"github.com/agadilkhan/currency-rate/internal/controller/http"
-	"github.com/agadilkhan/currency-rate/internal/database"
 	"github.com/agadilkhan/currency-rate/internal/job"
 	"github.com/agadilkhan/currency-rate/internal/repository/postgres"
 	"github.com/agadilkhan/currency-rate/internal/service"
 	"github.com/agadilkhan/currency-rate/internal/transport"
+	"github.com/agadilkhan/currency-rate/pkg/database"
+	"github.com/agadilkhan/currency-rate/pkg/httpserver"
 	"log"
 	"os"
 	"os/signal"
 )
 
+// Run initialize whole application.
 func Run(cfg *config.Config) {
 	ctx, cancel := context.WithCancel(context.TODO())
 	defer cancel()
@@ -39,10 +41,10 @@ func Run(cfg *config.Config) {
 
 	hndlr := http.NewHandler(srvc)
 
-	server := http.NewServer(
+	server := httpserver.New(
 		hndlr.InitRouter(),
-		http.WithHost(cfg.HttpServer.Port),
-		http.WithShutdownTimeout(cfg.HttpServer.ShutdownTimeout),
+		httpserver.WithHost(cfg.HttpServer.Port),
+		httpserver.WithShutdownTimeout(cfg.HttpServer.ShutdownTimeout),
 	)
 
 	server.Start()

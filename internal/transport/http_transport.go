@@ -17,7 +17,7 @@ func New(host string) *HttpTransport {
 	}
 }
 
-func (t *HttpTransport) GetCurrencies() (*[]entity.Currency, error) {
+func (t *HttpTransport) ParseRates() (*[]entity.Currency, error) {
 	resp, err := http.Get(t.Host)
 	if err != nil {
 		return nil, fmt.Errorf("failed to Get err: %v", err)

@@ -34,7 +34,7 @@ migrate -path migrations/ -database "postgresql://username:password@localhost:54
 
 ### Launch
 ```
-go run main.go
+go run cmd/main.go
 ```
 
 ### Endpoints

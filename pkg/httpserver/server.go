@@ -1,4 +1,4 @@
-package http
+package httpserver
 
 import (
 	"context"
@@ -12,7 +12,7 @@ type Server struct {
 	notify          chan error
 }
 
-func NewServer(handler http.Handler, opts ...Option) *Server {
+func New(handler http.Handler, opts ...Option) *Server {
 	httpServer := &http.Server{
 		Handler: handler,
 	}
